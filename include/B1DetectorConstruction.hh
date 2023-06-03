@@ -46,17 +46,15 @@ class B1DetectorConstruction : public G4VUserDetectorConstruction
 
     virtual G4VPhysicalVolume* Construct();
     
-    G4VPhysicalVolume* GetBodyVolume() const { return fBodyVolume; }
-    G4VPhysicalVolume* GetTumorVolume() const { return fTumorVolume; }
-    G4LogicalVolume* GetBodyLogVolume() const { return fBodyLogVolume; }
-    G4LogicalVolume* GetTumorLogVolume() const { return fTumorLogVolume; }
-
+    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+	G4LogicalVolume* GetBodyVolume() const { return fBodyVolume;}
+	G4LogicalVolume* GetHeadVolume() const { return fHeadVolume;}
   protected:
-    G4VPhysicalVolume*  fBodyVolume;
-    G4LogicalVolume*  fBodyLogVolume;
-    G4VPhysicalVolume*  fTumorVolume;
-    G4LogicalVolume*  fTumorLogVolume;
+    G4LogicalVolume*  fScoringVolume;
+	G4LogicalVolume*  fBodyVolume;
+	G4LogicalVolume*  fHeadVolume;
 };
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

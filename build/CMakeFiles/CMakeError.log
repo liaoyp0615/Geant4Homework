@@ -1,0 +1,33 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/local1/g4work/Geant4Homework/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/bin/gmake" "cmTC_fa79b/fast"
+/bin/gmake -f CMakeFiles/cmTC_fa79b.dir/build.make CMakeFiles/cmTC_fa79b.dir/build
+gmake[1]: Entering directory '/home/local1/g4work/Geant4Homework/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fa79b.dir/CheckSymbolExists.c.o
+/bin/cc    -o CMakeFiles/cmTC_fa79b.dir/CheckSymbolExists.c.o   -c /home/local1/g4work/Geant4Homework/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_fa79b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa79b.dir/link.txt --verbose=1
+/bin/cc      CMakeFiles/cmTC_fa79b.dir/CheckSymbolExists.c.o  -o cmTC_fa79b 
+CMakeFiles/cmTC_fa79b.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_fa79b.dir/build.make:87: cmTC_fa79b] Error 1
+gmake[1]: Leaving directory '/home/local1/g4work/Geant4Homework/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:126: cmTC_fa79b/fast] Error 2
+
+File /home/local1/g4work/Geant4Homework/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+

@@ -39,14 +39,11 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4VisAttributes.hh"
-using namespace CLHEP;
-
+#include "G4UnionSolid.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1DetectorConstruction::B1DetectorConstruction() : G4VUserDetectorConstruction(), 
-fBodyVolume(0), fTumorVolume(0)
+B1DetectorConstruction::B1DetectorConstruction() : G4VUserDetectorConstruction(), fScoringVolume(0),fBodyVolume(0),fHeadVolume(0)
 { }
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1DetectorConstruction::~B1DetectorConstruction()
@@ -64,7 +61,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
 
 	// Option to switch on/off checking of volumes overlaps
-	G4bool checkOverlaps = true;
+	G4bool checkOverlaps = false;
 
 
 	//     
@@ -120,12 +117,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	//
 	// head shape
 	// 
-	G4Material* shape_head = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
-	G4ThreeVector pos_head = G4ThreeVector(0*cm, 0*cm, 42*cm);
+	//G4Material* shape_head = nist->FindOrBuildMaterial("G4_BRAIN_ICRP");
+	//G4ThreeVector pos_head = G4ThreeVector(0*cm, 0*cm, 42*cm);
 	
 	G4double headShape_Rmax = 9.*cm;
 	G4Orb* solidShape_head = new G4Orb("headShape", headShape_Rmax);
-	G4LogicalVolume* logicShape_head =
+	/*G4LogicalVolume* logicShape_head =
 				new G4LogicalVolume(solidShape_head,      // its solid
 									shape_head,           // its material
 									"headShape");         // its name
@@ -137,34 +134,35 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 								false,                    // no boolean operation
 								0,                        // copy number
 								checkOverlaps);           // overlaps checking
-
+	*/
 	//
 	// neck
 	//
-	G4Material* shape_neck = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
+	G4Material* shape_neck = nist->FindOrBuildMaterial("G4_BRAIN_ICRP");
 	G4ThreeVector pos_neck = G4ThreeVector(0*cm, 0*cm, 29.5*cm);
-
 	G4double neckShape_xSemiAxis = 5*cm; 
 	G4double neckShape_ySemiAxis = 5*cm;
 	G4double neckShape_Dz = 4.5*cm;
 	G4EllipticalTube* solidShape_neck = new G4EllipticalTube("neckShape", neckShape_xSemiAxis, neckShape_ySemiAxis, neckShape_Dz);
-	G4LogicalVolume* logicShape_neck =
-				new G4LogicalVolume(solidShape_neck,      // its solid
+	G4UnionSolid* unionSolid = new G4UnionSolid("neck+head",solidShape_neck,solidShape_head,0,G4ThreeVector(0*cm, 0*cm, 12.5*cm));
+
+	G4LogicalVolume* logic_union =
+				new G4LogicalVolume(unionSolid,      // its solid
 									shape_neck,           // its material
-									"neckShape");         // its name
+									"neckShape_log");	  // its name
 				new G4PVPlacement(0,                      // no rotation
 								pos_neck,                 // at position
-								logicShape_neck,          // its logical volume
-								"neckShape",              // its name
+								logic_union,          // its logical volume
+								"neck+head",              // its name
 								logicEnv,                 // its mother  volume
-								false,                    // no boolean operation
+								true,                    // no boolean operation
 								0,                        // copy number
 								checkOverlaps);           // overlaps checking
 
 	//
 	// body
 	//
-	G4Material* shape_body = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
+	G4Material* shape_body = nist->FindOrBuildMaterial("G4_LUNG_ICRP");
 	G4ThreeVector pos_body = G4ThreeVector(0*cm, 0*cm, 0*cm);
 
 	G4double bodyShape_x = 13*cm; 
@@ -175,7 +173,6 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 				new G4LogicalVolume(solidShape_body,      // its solid
 									shape_body,           // its material
 									"bodyShape");         // its name
-	G4VPhysicalVolume* phyShape_body =
 				new G4PVPlacement(0,                      // no rotation
 								pos_body,                 // at position
 								logicShape_body,          // its logical volume
@@ -188,7 +185,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	//
 	// leg1
 	//
-	G4Material* shape_leg1 = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
+	G4Material* shape_leg1 = nist->FindOrBuildMaterial("G4_MUSCLE_SKELETAL_ICRP");
 	G4ThreeVector pos_leg1 = G4ThreeVector(7*cm, 0*cm, -66*cm);
 
 	G4double leg1Shape_xSemiAxis = 5.5*cm; 
@@ -211,7 +208,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	//
 	// leg2
 	//
-	G4Material* shape_leg2 = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
+	G4Material* shape_leg2 = nist->FindOrBuildMaterial("G4_MUSCLE_SKELETAL_ICRP");
 	G4ThreeVector pos_leg2 = G4ThreeVector(-7*cm, 0*cm, -66*cm);
 
 	G4double leg2Shape_xSemiAxis = 5.5*cm; 
@@ -234,7 +231,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	//
 	// Tumor
 	//
-	G4Material* shape_tumor = nist->FindOrBuildMaterial("G4_TISSUE_SOFT_ICRP");
+	G4Material* shape_tumor = nist->FindOrBuildMaterial("G4_LUNG_ICRP");
 	G4ThreeVector pos_tumor = G4ThreeVector(-8*cm, 0*cm, 0*cm);
 
 	G4double tumorShape_xSemiAxis = 2*cm; 
@@ -242,13 +239,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	G4double tumorShape_zSemiAxis = 3*cm;
 	G4double tumorShape_zBottomCut = 0*cm;
 	G4double tumorShape_zTopCut = 0*cm;
+
+	
 	G4Ellipsoid* solidShape_tumor = new G4Ellipsoid("tumorShape", 
 				tumorShape_xSemiAxis, tumorShape_ySemiAxis, tumorShape_zSemiAxis, tumorShape_zBottomCut, tumorShape_zTopCut);
 	G4LogicalVolume* logicShape_tumor =
 				new G4LogicalVolume(solidShape_tumor,      // its solid
 									shape_tumor,           // its material
 									"tumorShape");         // its name
-	G4VPhysicalVolume* phyShape_tumor =
 				new G4PVPlacement(0,                      // no rotation
 								pos_tumor,                 // at position
 								logicShape_tumor,          // its logical volume
@@ -260,27 +258,25 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
 
 	// color
-	G4VisAttributes* headVis = new G4VisAttributes(G4Colour(1.,1.,0.,0.2));
-	logicShape_head->SetVisAttributes(headVis);
-	G4VisAttributes* neckVis = new G4VisAttributes(G4Colour(1.,0.,1.,0.2));
-	logicShape_neck->SetVisAttributes(neckVis);
+	//G4VisAttributes* headVis = new G4VisAttributes(G4Colour(1.,1.,0.,0.9));
+	//logicShape_head->SetVisAttributes(headVis);
+	G4VisAttributes* neckVis = new G4VisAttributes(G4Colour(1.,0.,1.,0.9));
+	logic_union->SetVisAttributes(neckVis);
 	G4VisAttributes* bodyVis = new G4VisAttributes(G4Colour(0.,1.,0.,0.2));
 	logicShape_body->SetVisAttributes(bodyVis);
-	G4VisAttributes* legVis = new G4VisAttributes(G4Colour(0.,0.,1.,0.2));
+	G4VisAttributes* legVis = new G4VisAttributes(G4Colour(0.,0.,1.,0.9));
 	logicShape_leg1->SetVisAttributes(legVis);
 	logicShape_leg2->SetVisAttributes(legVis);
-	G4VisAttributes* tumorVis = new G4VisAttributes(G4Colour(1.,0.,0.,0.6));
+	G4VisAttributes* tumorVis = new G4VisAttributes(G4Colour(1.,0.,0.,0.9));
 	logicShape_tumor->SetVisAttributes(tumorVis);
 
 	
-	// Set physical volume
-	fBodyVolume = phyShape_body;
-	fTumorVolume = phyShape_tumor;
+	// Set logicShape_tumor as scoring volume
+	fScoringVolume = logicShape_tumor;
+	fBodyVolume = logicShape_body;
+	fHeadVolume = logic_union;
+	//fUnScoringVolume = logicShape_body;
 
-	// Set logical volume
-	fBodyLogVolume = logicShape_body;
-	fTumorLogVolume = logicShape_tumor;
-	
 	//
 	//always return the physical World
 	//
