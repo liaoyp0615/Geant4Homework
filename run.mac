@@ -1,0 +1,13 @@
+/run/numberOfThreads 1
+
+# Initialize kernel
+/run/initialize
+
+/control/verbose 0
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 0
+
+/gun/particle neutron
+/gun/energy 10 MeV
+/run/beamOn 10000
