@@ -235,7 +235,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 	//
 	// Tumor
 	//
-	G4Material* shape_tumor = nist->FindOrBuildMaterial("G4_LUNG_ICRP");
+	G4double density = 1.04*g/cm3;
+	G4Material* shape_tumor = new G4Material("Tumor",density,2);
+	G4Material* Lung = nist->FindOrBuildMaterial("G4_LUNG_ICRP");
+	G4double a = 10.0129370 *g/mole;
+	G4Element* B10 = new G4Element("Boren10", "B10", 5., a);
+	G4double fracmass = 100.*pow(10,-6);
+	shape_tumor->AddElement(B10,fracmass);
+	shape_tumor->AddMaterial(Lung,1-fracmass);
 	G4ThreeVector pos_tumor = G4ThreeVector(-8*cm, 0*cm, 0*cm);
 
 	G4double tumorShape_xSemiAxis = 2*cm; 
@@ -256,7 +263,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 								pos_tumor,                 // at position
 								logicShape_tumor,          // its logical volume
 								"tumorShape",              // its name
-								logicEnv,                 // its mother  volume
+								logicShape_body,                 // its mother  volume
 								false,                    // no boolean operation
 								0,                        // copy number
 								checkOverlaps);           // overlaps checking

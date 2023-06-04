@@ -158,7 +158,10 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4BestUnit(Headdose,"Dose") << " rms = " << G4BestUnit(HeadrmsDose,"Dose") << G4endl
      << " Cumulated dose per run, in All (Tumor+Body+Head) volume : " 
      << G4BestUnit(Alldose,"Dose") << " rms = " << G4BestUnit(AllrmsDose,"Dose") << G4endl
-     << "------------------------------------------------------------"
+     << "TumorEdep = " << Tumoredep << G4endl
+	 << "BodyEdep = " << Bodyedep << G4endl
+	 << "AllEdep = " << Alledep << G4endl
+	 << "--------------------------------`----------------------------"
      << G4endl << G4endl;
   }
   // else {
