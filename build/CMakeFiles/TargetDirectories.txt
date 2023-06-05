@@ -1,0 +1,8 @@
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/exec.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/B1.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/edit_cache.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/rebuild_cache.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/list_install_components.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/install.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/install/local.dir
+/home/canmog/Desktop/g4work/Geant4Homework/build/CMakeFiles/install/strip.dir
