@@ -139,14 +139,10 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   {
     // const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
     // canmog change:
-    const G4GeneralParticleSource* particleSource = generatorAction->GetGeneralParticleSource();
-    // runCondition += particleGun->GetParticleDefinition()->GetParticleName();
-    // canmog change:
-    runCondition += particleSource->GetParticleDefinition()->GetParticleName();
+    const G4GeneralParticleSource* particleGun = generatorAction->GetParticleGun();
+    runCondition += particleGun->GetParticleDefinition()->GetParticleName();
     runCondition += " of ";
-    // G4double particleEnergy = particleGun->GetParticleEnergy();
-    // canmog change:
-    G4double particleEnergy = particleSource->GetParticleEnergy();
+    G4double particleEnergy = particleGun->GetParticleEnergy();
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
         

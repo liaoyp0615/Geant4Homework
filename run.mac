@@ -9,6 +9,26 @@
 /event/verbose 0
 /tracking/verbose 1
 
-/gun/particle neutron
-/gun/energy 10 MeV
-/run/beamOn 100
+/gps/particle neutron
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre -8. 7. 0. cm
+/gps/pos/radius 0.8 cm
+/gps/ang/type iso
+# the beam energy is in gaussian profile centered at 400 MeV
+#/gps/ene/type Gauss
+#/gps/ene/mono 0.1 keV
+#/gps/ene/sigma 100. eV
+
+# Linear 
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/hist/point 0.4E-06 0.
+/gps/hist/point 1E-06 0.05
+/gps/hist/point 10E-06 0.1
+/gps/hist/point 100E-06 0.4
+/gps/hist/point 1E-03 0.25
+/gps/hist/point 10E-03 0.2
+/gps/hist/inter Lin
+
+/run/beamOn 1000

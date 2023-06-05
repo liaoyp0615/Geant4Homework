@@ -44,53 +44,19 @@ using namespace CLHEP;
 
 B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
-  fParticleSource(0), 
+  fParticleGun(0), 
   fEnvelopeBox(0)
 {
-  G4GeneralParticleSource* fParticleSource = new G4GeneralParticleSource();
+  fParticleGun = new G4GeneralParticleSource();
 
 
-  // default particle name
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4ParticleDefinition* particle = particleTable->FindParticle("neutron");
-  fParticleSource->SetParticleDefinition(particle);
-
-
-  // enengy distribution
-  G4double randomNumber = G4UniformRand();
-  if (randomNumber < 0.05) // 5% probability
-  {
-    fParticleSource->GetCurrentSource()->GetEneDist()->SetMonoEnergy(10.0 * keV); // 0.5 eV energy
-  }
-  else if (randomNumber < 0.95) // 90% probability
-  {
-    fParticleSource->GetCurrentSource()->GetEneDist()->SetMonoEnergy(10.0 * keV); // 10 keV energy
-  }
-  else // 5% probability
-  {
-    fParticleSource->GetCurrentSource()->GetEneDist()->SetMonoEnergy(G4UniformRand() * (10 * keV - 0.5 * eV) + 0.5 * eV); 
-    // Random energy between 0.5 eV and 10 keV
-  }
-
-
-  // particle position
-  G4SPSPosDistribution* posDist = fParticleSource->GetCurrentSource()->GetPosDist();
-  posDist->SetPosDisType("Plane");
-  posDist->SetPosDisShape("Circle");
-  posDist->SetRadius(0.8 * cm);
-  posDist->SetCentreCoords(G4ThreeVector(-8. * cm, 7. * cm, 0. * cm)); 
-
-  G4SPSAngDistribution* angDist = fParticleSource->GetCurrentSource()->GetAngDist();
-  angDist->SetAngDistType("iso");
-
- 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
 {
-  delete fParticleSource;
+  delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -128,7 +94,7 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   }
 
 
-  fParticleSource->GeneratePrimaryVertex(anEvent);
+  fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
