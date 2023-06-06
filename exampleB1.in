@@ -1,0 +1,37 @@
+/run/numberOfThreads 1
+
+# Initialize kernel
+/run/initialize
+
+/control/verbose 0
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 0
+
+/gun/particle neutron
+/gun/energy 0.1 eV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 1 eV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 10 eV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 100 eV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 1 keV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 5 keV
+/run/beamOn 50000
+
+/gun/particle neutron
+/gun/energy 10 keV
+/run/beamOn 50000
