@@ -70,7 +70,6 @@
 * 假如使用某种靶向药物，使肿瘤区内的10B原子浓度达到100 ug/g，请优化中子束线能量，并再次与其它射线的治疗效果进行对比
 * 利用源粒子和硼10反应，会放出alpha粒子，alpha粒子的自由程非常短，所以能量全部沉积在肿瘤区域，被癌细胞吸收，达到治疗的效果
 * 可以先存成ROOT文件，然后用ROOT-C画图
-![](https://jupyter.ihep.ac.cn/uploads/0f2c7c6b-1194-489e-ac8c-6c259902b989.png =400x180)
 * 需要画的图：
 - [x] 0.5eV, 10eV, 10KeV, 1MeV, 50MeV的 x y z e 四个图 (100,000)
 - [x] Body, Tumor, Head的辐射剂量比例 随 能量分布 (不同类型中子)（10,000）
@@ -82,11 +81,9 @@
 ### 参考
 * 中子束的能谱：中子能量范围为慢中子至超热中子（0.5eV~10keV）
     可以使用中子束注入：
-    ![](https://jupyter.ihep.ac.cn/uploads/222dbd94-e450-4802-9826-b1210525218f.png =500x480)
 * 辐射剂量分布情况：$D=\frac{dE}{dM}$, 1公斤物体质量吸收1焦耳的能量为1Gy
   人员剂量上限是 20mGy（这里忽略了不同粒子种类以及不同人体部位带来的权重差异）
 * 能量沉积和径迹长度：慢中子至超热中子（0.5eV~10keV）（depth~8cm）
-    ref：![](https://jupyter.ihep.ac.cn/uploads/2639c539-d7a2-40c8-bccd-136dcc9adaf5.png =500x280)
 * (optional) 辐射生物学效应：Geant4-DNA模拟电离辐射和生物学结构导致的电离辐射损失[](https://)https://www.sciencedirect.com/science/article/pii/S1120179723000789
 * 强子（质子和C_12）的放射疗法： Geant4 Simulations of Hadron Therapy and Refinement of User Interface
 * 基于3.5+MeV射频四极质子加速器硼中子俘获治疗装置的束流整形体设计
